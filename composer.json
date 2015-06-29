@@ -1,0 +1,24 @@
+{
+    "name": "stevebauman/wmi",
+    "description": "A package for WMI manipulation using PHP and COM.",
+    "authors": [
+        {
+            "name": "Steve Bauman",
+            "email": "steven_bauman@outlook.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stevebauman\\Wmi": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Stevebauman\\Wmi\\Tests": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
+}
