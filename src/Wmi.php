@@ -42,7 +42,7 @@ class Wmi implements WmiInterface
     private $connection;
 
     /**
-     * The COM script.
+     * The WMI COM script.
      *
      * @var string
      */
