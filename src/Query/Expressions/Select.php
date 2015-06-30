@@ -4,7 +4,7 @@ namespace Stevebauman\Wmi\Query\Expressions;
 
 use Stevebauman\Wmi\Query\Operator;
 
-class Select extends Expression
+class Select extends AbstractExpression
 {
     /**
      * The select columns.

@@ -2,7 +2,7 @@
 
 namespace Stevebauman\Wmi\Query\Expressions;
 
-class Where extends Expression
+class Where extends AbstractExpression
 {
     /**
      * The column for the where clause.

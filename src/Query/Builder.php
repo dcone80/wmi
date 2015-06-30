@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Wmi\Query;
 
+use Stevebauman\Wmi\Query\Expressions\From;
 use Stevebauman\Wmi\Query\Expressions\Where;
 use Stevebauman\Wmi\Query\Expressions\Select;
 use Stevebauman\Wmi\ConnectionInterface;
@@ -14,6 +15,13 @@ class Builder implements BuilderInterface
      * @var Select
      */
     protected $select;
+
+    /**
+     * The from statement of the current query.
+     *
+     * @var From
+     */
+    protected $from;
 
     /**
      * The where statements of the current query.
@@ -97,6 +105,20 @@ class Builder implements BuilderInterface
     public function orWhere($column, $operator, $value)
     {
         $this->addWhere(new Where($column, $operator, $value, 'OR'));
+
+        return $this;
+    }
+
+    /**
+     * Adds a from statement to the current query.
+     *
+     * @param string $namespace
+     *
+     * @return $this
+     */
+    public function from($namespace)
+    {
+        $this->from = new From($namespace);
 
         return $this;
     }

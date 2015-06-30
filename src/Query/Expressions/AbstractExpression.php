@@ -5,7 +5,7 @@ namespace Stevebauman\Wmi\Query\Expressions;
 use Stevebauman\Wmi\Exceptions\Query\InvalidOperatorException;
 use Stevebauman\Wmi\Query\Operator;
 
-class Expression
+abstract class AbstractExpression
 {
     /**
      * Validates the operator in an expression.

@@ -2,7 +2,7 @@
 
 namespace Stevebauman\Wmi\Query\Expressions;
 
-class From extends Expression
+class From extends AbstractExpression
 {
     /**
      * The namespace to perform the query on.
