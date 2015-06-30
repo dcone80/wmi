@@ -46,6 +46,9 @@ The `connect()` method will return true or false if the connection was successfu
     
 ### Querying
 
+> **CAUTION**: Before we get started with queries, you should know that no values are escaped besides quotes inside
+> any query method. This package **is not** meant to handle user input.
+
 #### Raw Queries
 
 Once you've connected to the computer, you can execute queries on it with its connection. To execute a raw query, use:
