@@ -102,3 +102,6 @@ assume you're meaning to select all columns, so you're able to perform:
 
     $query->from('Win32_LogicalDisk')->get();
     
+    //Output
+    SELECT * FROM Win32_LogicalDisk
+
