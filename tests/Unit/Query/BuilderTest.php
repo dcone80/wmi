@@ -50,4 +50,38 @@ class BuilderTest extends UnitTestCase
 
         $this->assertEquals("WHERE test = 'test'", $wheres[0]->build());
     }
+
+    public function testWhereWithValue()
+    {
+        $this->builder->where('test', '=', 'test');
+
+        $wheres = $this->builder->getWheres();
+
+        $this->assertEquals("WHERE test = 'test'", $wheres[0]->build());
+    }
+
+    public function testWhereInvalidOperator()
+    {
+        $this->setExpectedException('Stevebauman\Wmi\Exceptions\Query\InvalidOperatorException');
+
+        $this->builder->where('test', 'invalid', 'test');
+    }
+
+    public function testOrWhereWithValue()
+    {
+        $this->builder->orWhere('test', '=', 'test');
+
+        $wheres = $this->builder->getOrWheres();
+
+        $this->assertEquals(" OR WHERE test = 'test'", $wheres[0]->build());
+    }
+
+    public function testAndWhereWithValue()
+    {
+        $this->builder->andWhere('test', '=', 'test');
+
+        $wheres = $this->builder->getAndWheres();
+
+        $this->assertEquals(" AND WHERE test = 'test'", $wheres[0]->build());
+    }
 }

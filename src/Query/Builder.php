@@ -186,6 +186,26 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * Returns the or where expressions on the current query.
+     *
+     * @return array
+     */
+    public function getOrWheres()
+    {
+        return $this->orWheres;
+    }
+
+    /**
+     * Returns the curretn and where expressions on the current query.
+     *
+     * @return array
+     */
+    public function getAndWheres()
+    {
+        return $this->andWheres;
+    }
+
+    /**
      * Builds the query and returns the query string.
      *
      * @return string
