@@ -38,7 +38,7 @@ class Select extends AbstractExpression
      */
     public function build()
     {
-        $columns = implode(',', $this->columns);
+        $columns = implode(', ', $this->columns);
 
         return sprintf('SELECT %s', $columns);
     }
