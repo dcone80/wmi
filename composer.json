@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Stevebauman\\Wmi": "src/"
+            "Stevebauman\\Wmi\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Stevebauman\\Wmi\\Tests": "tests/"
+            "Stevebauman\\Wmi\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable"
