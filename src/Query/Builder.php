@@ -176,6 +176,16 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * Returns the current from expression.
+     *
+     * @return From
+     */
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    /**
      * Returns the where expressions on the current query.
      *
      * @return array

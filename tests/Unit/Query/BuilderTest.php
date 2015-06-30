@@ -84,4 +84,18 @@ class BuilderTest extends UnitTestCase
 
         $this->assertEquals(" AND WHERE test = 'test'", $wheres[0]->build());
     }
+
+    public function testFrom()
+    {
+        $this->builder->from('Test');
+
+        $this->assertEquals('FROM Test', $this->builder->getFrom()->build());
+    }
+
+    public function testGetWithoutFromStatementFailure()
+    {
+        $this->setExpectedException('Stevebauman\Wmi\Exceptions\Query\InvalidFromStatement');
+
+        $this->builder->get();
+    }
 }
