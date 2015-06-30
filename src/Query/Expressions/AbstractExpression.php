@@ -39,7 +39,7 @@ abstract class AbstractExpression
     {
         $operators = Operator::get();
 
-        if(in_array($operator, $operators)) return true;
+        if (in_array($operator, $operators)) return true;
 
         $message = "Operator: $operator is invalid, and cannot be used.";
 

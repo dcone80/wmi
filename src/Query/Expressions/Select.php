@@ -20,11 +20,11 @@ class Select extends AbstractExpression
      */
     public function __construct($columns = null)
     {
-        if(is_array($columns)) {
-            foreach($columns as $column) {
+        if (is_array($columns)) {
+            foreach ($columns as $column) {
                 $this->addColumn($column);
             }
-        } elseif(is_string($columns)) {
+        } elseif (is_string($columns)) {
             $this->addColumn($columns);
         } else {
             $this->addColumn(Operator::$wildcard);

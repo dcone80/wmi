@@ -44,7 +44,7 @@ class Where extends AbstractExpression
      */
     public function __construct($column, $operator, $value = null, $keyword = null)
     {
-        if(is_null($value)) {
+        if (is_null($value)) {
             /*
              * If the value is null, we're going to assume
              * they want a where equals expression.
@@ -56,7 +56,7 @@ class Where extends AbstractExpression
              * If they've supplied a value then we'll
              * validate the operator before proceeding.
              */
-            if($this->validateOperator($operator)) {
+            if ($this->validateOperator($operator)) {
                 $this->operator = $operator;
                 $this->value = $this->escapeValue($value);
             }
@@ -79,7 +79,7 @@ class Where extends AbstractExpression
 
         $keyword = $this->keyword;
 
-        if(!is_null($keyword)) {
+        if (!is_null($keyword)) {
             $where = sprintf(' %s %s', $keyword, $where);
         }
 
