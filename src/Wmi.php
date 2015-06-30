@@ -7,13 +7,6 @@ use COM;
 class Wmi implements WmiInterface
 {
     /**
-     * The security impersonation level of the WMI script.
-     *
-     * @var int
-     */
-    protected $impersonationLevel = 3;
-
-    /**
      * The host of the current WMI connection.
      *
      * @var string
@@ -76,17 +69,18 @@ class Wmi implements WmiInterface
      * server using the current COM instance.
      *
      * @param string $namespace
+     * @param int    $level
      *
      * @return bool
      */
-    public function connect($namespace = '')
+    public function connect($namespace = '', $level = 3)
     {
         // Connect to the host using the specified namespace
         $connection = $this->com->ConnectServer($this->getHost(), $namespace, $this->getUsername(), $this->password);
 
         if ($connection) {
             // Set the impersonation level
-            $connection->Security_->ImpersonationLevel = $this->impersonationLevel;
+            $connection->Security_->ImpersonationLevel = (int) $level;
 
             // Set the connection
             $this->setConnection(new Connection($connection));
