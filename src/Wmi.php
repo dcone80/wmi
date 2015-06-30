@@ -71,7 +71,7 @@ class Wmi implements WmiInterface
      * @param string $namespace
      * @param int    $level
      *
-     * @return bool
+     * @return bool|Connection
      */
     public function connect($namespace = '', $level = 3)
     {
@@ -85,7 +85,7 @@ class Wmi implements WmiInterface
             // Set the connection
             $this->setConnection(new Connection($connection));
 
-            return true;
+            return $this->getConnection();
         }
 
         return false;
