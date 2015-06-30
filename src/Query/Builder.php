@@ -87,7 +87,7 @@ class Builder implements BuilderInterface
      */
     public function where($column, $operator, $value = null)
     {
-        if(count($this->wheres) > 0) {
+        if (count($this->wheres) > 0) {
             $this->andWhere($column, $operator, $value);
         }
 
@@ -210,7 +210,7 @@ class Builder implements BuilderInterface
      */
     private function buildSelect()
     {
-        if($this->select instanceof Select) {
+        if ($this->select instanceof Select) {
             return $this->select->build();
         } else {
             return (new Select())->build();
@@ -226,7 +226,7 @@ class Builder implements BuilderInterface
      */
     private function buildFrom()
     {
-        if($this->from instanceof From) {
+        if ($this->from instanceof From) {
             return $this->from->build();
         }
 
@@ -245,15 +245,15 @@ class Builder implements BuilderInterface
     {
         $statement = '';
 
-        foreach($this->wheres as $where) {
+        foreach ($this->wheres as $where) {
             $statement = $where->build();
         }
 
-        foreach($this->andWheres as $andWhere) {
+        foreach ($this->andWheres as $andWhere) {
             $statement .= $andWhere->build();
         }
 
-        foreach($this->orWheres as $orWhere) {
+        foreach ($this->orWheres as $orWhere) {
             $statement .= $orWhere->build();
         }
 
