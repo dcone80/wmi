@@ -22,9 +22,23 @@ class BuilderTest extends UnitTestCase
 
     public function testSelectWildCard()
     {
-        $this->builder->select('*');
+        $this->builder->select(null);
 
         $this->assertInstanceOf('Stevebauman\Wmi\Query\Expressions\Select', $this->builder->getSelect());
         $this->assertEquals('SELECT *', $this->builder->getSelect()->build());
+    }
+
+    public function testSelectString()
+    {
+        $this->builder->select('Test');
+
+        $this->assertEquals('SELECT Test', $this->builder->getSelect()->build());
+    }
+
+    public function testSelectArray()
+    {
+        $this->builder->select(['Test', 'Test']);
+
+        $this->assertEquals('SELECT Test, Test', $this->builder->getSelect()->build());
     }
 }

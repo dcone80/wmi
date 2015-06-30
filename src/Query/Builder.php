@@ -69,7 +69,7 @@ class Builder implements BuilderInterface
      *
      * @return $this
      */
-    public function select($columns)
+    public function select($columns = null)
     {
         $this->select = new Select($columns);
 
