@@ -48,7 +48,7 @@ class Builder implements BuilderInterface
     /**
      * The current connection.
      *
-     * @var ConnectionInterface
+     * @var \Stevebauman\Wmi\Connection
      */
     private $connection;
 
