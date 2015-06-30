@@ -101,6 +101,8 @@ class Operator
             self::$lessThanEqualTo,
             self::$greaterThan,
             self::$greaterThanEqualTo,
+            self::$doesNotEqual,
+            self::$doesNotEqualAlt,
             self::$is,
             self::$isA,
             self::$isNot,
