@@ -63,6 +63,7 @@ class Where extends AbstractExpression
         }
 
         $this->column = $column;
+        $this->keyword = $keyword;
     }
 
     /**
@@ -72,10 +73,14 @@ class Where extends AbstractExpression
      */
     public function build()
     {
-        $where = sprintf('WHERE %s %s %s', $this->column, $this->operator, $this->value);
+        $value = sprintf("'%s'", addslashes($this->value));
 
-        if(!is_null($this->keyword)) {
-            $where = sprintf('%s %s', $this->keyword, $where);
+        $where = sprintf('WHERE %s %s %s', $this->column, $this->operator, $value);
+
+        $keyword = $this->keyword;
+
+        if(!is_null($keyword)) {
+            $where = sprintf('%s %s', $keyword, $where);
         }
 
         return $where;

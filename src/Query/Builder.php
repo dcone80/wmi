@@ -210,7 +210,7 @@ class Builder implements BuilderInterface
             return $this->from->build();
         }
 
-        $message = 'No from statement exists.';
+        $message = 'No from statement exists. You need to supply one to retrieve results.';
 
         throw new InvalidFromStatement($message);
     }
@@ -235,9 +235,17 @@ class Builder implements BuilderInterface
                 $built = $where->build();
 
                 if($where->isAnd()) {
-                    $andWheresString = sprintf('%s %s', $andWheresString, $built);
+                    if(empty($andWheresString)) {
+                        $andWheresString = $built;
+                    } else {
+                        $andWheresString = sprintf('%s %s', $andWheresString, $built);
+                    }
                 } else if($where->isOr()) {
-                    $orWheresString = sprintf('%s %s', $orWheresString, $built);
+                    if(empty($orWheresString)) {
+                        $orWheresString = $built;
+                    } else {
+                        $orWheresString = sprintf('%s %s', $orWheresString, $built);
+                    }
                 } else {
                     $whereString = $built;
                 }
