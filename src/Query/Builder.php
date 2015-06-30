@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Wmi\Query;
 
+use Stevebauman\Wmi\Exceptions\Query\InvalidFromStatement;
 use Stevebauman\Wmi\Query\Expressions\From;
 use Stevebauman\Wmi\Query\Expressions\Where;
 use Stevebauman\Wmi\Query\Expressions\Select;
@@ -171,15 +172,47 @@ class Builder implements BuilderInterface
      */
     private function buildQuery()
     {
-        $select = $this->select->build();
+        $select = $this->buildSelect();
 
-        $from = $this->from->build();
+        $from = $this->buildFrom();
 
         $wheres = $this->buildWheres();
 
         $query = sprintf('%s %s %s', $select, $from, $wheres);
 
         return trim($query);
+    }
+
+    /**
+     * Builds the select statement on the current query.
+     *
+     * @return string
+     */
+    private function buildSelect()
+    {
+        if($this->select instanceof Select) {
+            return $this->select->build();
+        } else {
+            return (new Select())->build();
+        }
+    }
+
+    /**
+     * Builds the from statement on the current query.
+     *
+     * @return string
+     *
+     * @throws InvalidFromStatement
+     */
+    private function buildFrom()
+    {
+        if($this->from instanceof From) {
+            return $this->from->build();
+        }
+
+        $message = 'No from statement exists.';
+
+        throw new InvalidFromStatement($message);
     }
 
     /**
