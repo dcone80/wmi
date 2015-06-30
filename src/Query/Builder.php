@@ -64,7 +64,7 @@ class Builder implements BuilderInterface
      */
     public function where($column, $operator, $value)
     {
-        $this->wheres[] = new Where($column, $operator, $value);
+        $this->addWhere(new Where($column, $operator, $value));
 
         return $this;
     }
@@ -80,7 +80,7 @@ class Builder implements BuilderInterface
      */
     public function andWhere($column, $operator, $value)
     {
-        $this->wheres[] = new Where($column, $operator, $value, 'AND');
+        $this->addWhere(new Where($column, $operator, $value, 'AND'));
 
         return $this;
     }
@@ -96,6 +96,22 @@ class Builder implements BuilderInterface
      */
     public function orWhere($column, $operator, $value)
     {
+        $this->addWhere(new Where($column, $operator, $value, 'OR'));
+
+        return $this;
+    }
+
+    /**
+     * Adds a Where expression to the current query.
+     *
+     * @param Where $where
+     *
+     * @return $this
+     */
+    private function addWhere(Where $where)
+    {
+        $this->wheres[] = $where;
+
         return $this;
     }
 
