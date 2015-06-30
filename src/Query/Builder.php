@@ -166,6 +166,26 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * Returns the current select expression.
+     *
+     * @return null|Select
+     */
+    public function getSelect()
+    {
+        return $this->select;
+    }
+
+    /**
+     * Returns the where expressions on the current query.
+     *
+     * @return array
+     */
+    public function getWheres()
+    {
+        return $this->wheres;
+    }
+
+    /**
      * Builds the query and returns the query string.
      *
      * @return string
