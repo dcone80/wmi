@@ -46,8 +46,9 @@ The `connect()` method will return true or false if the connection was successfu
     
 ### Querying
 
-> **CAUTION**: Before we get started with queries, you should know that no values are escaped besides quotes inside
-> any query method. This package **is not** meant to handle user input.
+> **CAUTION**: Before we get started with queries, you should know that **NO VALUES** are escaped besides quotes inside
+> any query method. This package **is not** meant to handle user input, and you should not allow users to query computers
+on your network.
 
 #### Raw Queries
 
