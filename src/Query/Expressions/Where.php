@@ -50,7 +50,7 @@ class Where extends AbstractExpression
              * they want a where equals expression.
              */
             $this->operator = '=';
-            $this->value = $operator;
+            $this->value = $this->escapeValue($operator);
         } else {
             /*
              * If they've supplied a value then we'll
@@ -58,7 +58,7 @@ class Where extends AbstractExpression
              */
             if($this->validateOperator($operator)) {
                 $this->operator = $operator;
-                $this->value = $value;
+                $this->value = $this->escapeValue($value);
             }
         }
 
@@ -73,14 +73,14 @@ class Where extends AbstractExpression
      */
     public function build()
     {
-        $value = sprintf("'%s'", addslashes($this->value));
+        $value = sprintf("'%s'", $this->value);
 
         $where = sprintf('WHERE %s %s %s', $this->column, $this->operator, $value);
 
         $keyword = $this->keyword;
 
         if(!is_null($keyword)) {
-            $where = sprintf('%s %s', $keyword, $where);
+            $where = sprintf(' %s %s', $keyword, $where);
         }
 
         return $where;

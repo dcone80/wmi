@@ -15,6 +15,18 @@ abstract class AbstractExpression
     abstract public function build();
 
     /**
+     * Escapes quotes for use in an SQL query string.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public function escapeValue($value)
+    {
+        return addslashes(stripslashes($value));
+    }
+
+    /**
      * Validates the operator in an expression.
      *
      * @param string $operator
