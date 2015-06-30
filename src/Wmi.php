@@ -3,7 +3,6 @@
 namespace Stevebauman\Wmi;
 
 use COM;
-use Stevebauman\Wmi\Interfaces\ConnectionInterface;
 
 class Wmi implements WmiInterface
 {
@@ -66,7 +65,7 @@ class Wmi implements WmiInterface
     public function __construct($host = 'localhost', $username = null, $password = null)
     {
         $this->com = new COM($this->script);
-
+        
         $this->setHost($host);
         $this->setUsername($username);
         $this->setPassword($password);

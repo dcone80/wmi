@@ -9,68 +9,89 @@ class Operator
      *
      * @var string
      */
-    protected $equals = '=';
+    public static $equals = '=';
 
     /**
      * The less than operator.
      *
      * @var string
      */
-    protected $lessThan = '<';
+    public static $lessThan = '<';
 
     /**
      * The greater than operator.
      *
      * @var string
      */
-    protected $greaterThan = '>';
+    public static $greaterThan = '>';
 
     /**
      * The less than or equal to operator.
      *
      * @var string
      */
-    protected $lessThanEqualTo = '<=';
+    public static $lessThanEqualTo = '<=';
 
     /**
      * The greater than or equal to operator.
      *
      * @var string
      */
-    protected $greaterThanEqualTo = '>=';
+    public static $greaterThanEqualTo = '>=';
 
     /**
      * The wildcard operator.
      *
      * @var string
      */
-    protected static $wildcard = '*';
+    public static $wildcard = '*';
 
     /**
      * The like operator.
      *
      * @var string
      */
-    protected static $like = 'LIKE';
+    public static $like = 'LIKE';
 
     /**
      * The is operator.
      *
      * @var string
      */
-    protected static $is = 'IS';
+    public static $is = 'IS';
 
     /**
      * The is a operator.
      *
      * @var string
      */
-    protected static $isA = 'ISA';
+    public static $isA = 'ISA';
 
     /**
      * The is not operator.
      *
      * @var string
      */
-    protected static $isNot = 'IS NOT';
+    public static $isNot = 'IS NOT';
+
+    /**
+     * Returns all available operators.
+     *
+     * @return array
+     */
+    public static function get()
+    {
+        return [
+            self::$equals,
+            self::$lessThan,
+            self::$lessThanEqualTo,
+            self::$greaterThan,
+            self::$greaterThanEqualTo,
+            self::$is,
+            self::$isA,
+            self::$isNot,
+            self::$like,
+            self::$wildcard,
+        ];
+    }
 }
