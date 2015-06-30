@@ -168,7 +168,7 @@ class Builder implements BuilderInterface
     /**
      * Returns the current select expression.
      *
-     * @return null|Select
+     * @return Select
      */
     public function getSelect()
     {
