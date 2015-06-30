@@ -71,13 +71,34 @@ Once you've connected to the computer, you can execute queries on it with its co
 
 #### Query Builder
 
-WMI Comes with a query builder so you're able to easily build statements. To create a new Builder use:
+WMI Comes with a WQL query builder so you're able to easily build statements. To create a new Builder use the `newQuery()`
+method on the WMI connection instance like so:
 
     $query = $wmi->getConnection()->newQuery();
     
+Once you have the query, we can start building:
+
     $results = $query->select('*')
         ->from('Win32_LogicalDisk')
+        ->where('Size', '>=', '150000')
         ->get();
     
-Once you have the query, we can start building.
 
+##### Select
+
+The select method accepts a string or an array to insert selects onto the current query. For example:
+
+    // Select All
+    $query->select('*');
+    
+    // Select Specific
+    $query->select(['Name', 'Disk', 'Size']);
+    
+    // Select Specific (string)
+    $query->select('Name, Disk, Size');
+    
+If you don't use the select method, that's fine too. The Builder will
+assume you're meaning to select all columns, so you're able to perform:
+
+    $query->from('Win32_LogicalDisk')->get();
+    
