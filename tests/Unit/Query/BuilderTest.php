@@ -41,4 +41,13 @@ class BuilderTest extends UnitTestCase
 
         $this->assertEquals('SELECT Test, Test', $this->builder->getSelect()->build());
     }
+
+    public function testWhereWithoutValue()
+    {
+        $this->builder->where('test', 'test');
+
+        $wheres = $this->builder->getWheres();
+
+        $this->assertEquals("WHERE test = 'test'", $wheres[0]->build());
+    }
 }
