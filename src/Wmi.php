@@ -83,7 +83,7 @@ class Wmi implements WmiInterface
     {
         // Connect to the host using the specified namespace
         $connection = $this->com->ConnectServer($this->getHost(), $namespace, $this->getUsername(), $this->password);
-
+        
         if($connection) {
             // Set the impersonation level
             $connection->Security_->ImpersonationLevel = $this->impersonationLevel;

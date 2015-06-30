@@ -1,4 +1,4 @@
-## WMI
+## WMI - Windows Management Instrumentation in PHP
 
 ### Requirements
 
