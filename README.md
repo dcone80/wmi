@@ -23,7 +23,9 @@ You're all set!
 ### Connecting
 
 To use WMI, you must create a new WMI instance. To interact with the current computer, just create a WMI instance:
-
+    
+    use Stevebauman\Wmi\Wmi;
+    
     $wmi = new Wmi();
 
 To interact with a PC on your network, you'll need to enter a host name, and a username and password if needed:
@@ -69,7 +71,7 @@ WMI Comes with a query builder so you're able to easily build statements. To cre
 
     $query = $wmi->getConnection()->newQuery();
     
-    $query->select('*')
+    $results = $query->select('*')
         ->from('Win32_LogicalDisk')
         ->get();
     
