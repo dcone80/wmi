@@ -64,4 +64,42 @@ class Where extends AbstractExpression
 
         $this->column = $column;
     }
+
+    /**
+     * Builds the current where expression and returns the result.
+     *
+     * @return string
+     */
+    public function build()
+    {
+        $where = sprintf('WHERE %s %s %s', $this->column, $this->operator, $this->value);
+
+        if(!is_null($this->keyword)) {
+            $where = sprintf('%s %s', $this->keyword, $where);
+        }
+
+        return $where;
+    }
+
+    /**
+     * Returns true / false if the current
+     * where expression is an and.
+     *
+     * @return bool
+     */
+    public function isAnd()
+    {
+        return ($this->keyword === 'AND' ? true : false);
+    }
+
+    /**
+     * Returns true / false if the current
+     * where expression is an or.
+     *
+     * @return bool
+     */
+    public function isOr()
+    {
+        return ($this->keyword === 'OR' ? true : false);
+    }
 }

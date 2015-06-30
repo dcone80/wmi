@@ -70,8 +70,12 @@ class Builder implements BuilderInterface
      *
      * @return $this
      */
-    public function where($column, $operator, $value)
+    public function where($column, $operator, $value = null)
     {
+        if(count($this->wheres) > 0) {
+            $this->andWhere($column, $operator, $value);
+        }
+
         $this->addWhere(new Where($column, $operator, $value));
 
         return $this;
@@ -86,7 +90,7 @@ class Builder implements BuilderInterface
      *
      * @return $this
      */
-    public function andWhere($column, $operator, $value)
+    public function andWhere($column, $operator, $value = null)
     {
         $this->addWhere(new Where($column, $operator, $value, 'AND'));
 
@@ -102,7 +106,7 @@ class Builder implements BuilderInterface
      *
      * @return $this
      */
-    public function orWhere($column, $operator, $value)
+    public function orWhere($column, $operator, $value = null)
     {
         $this->addWhere(new Where($column, $operator, $value, 'OR'));
 
@@ -124,6 +128,29 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * Builds and executes the current
+     * query, returning the results.
+     *
+     * @return mixed
+     */
+    public function get()
+    {
+        $query = $this->buildQuery();
+
+        return $this->connection->query($query);
+    }
+
+    /**
+     * Returns the current query.
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->buildQuery();
+    }
+
+    /**
      * Adds a Where expression to the current query.
      *
      * @param Where $where
@@ -137,4 +164,53 @@ class Builder implements BuilderInterface
         return $this;
     }
 
+    /**
+     * Builds the query and returns the query string.
+     *
+     * @return string
+     */
+    private function buildQuery()
+    {
+        $select = $this->select->build();
+
+        $from = $this->from->build();
+
+        $wheres = $this->buildWheres();
+
+        $query = sprintf('%s %s %s', $select, $from, $wheres);
+
+        return trim($query);
+    }
+
+    /**
+     * Builds the wheres on the current query
+     * and returns the result query string.
+     *
+     * @return bool|string
+     */
+    private function buildWheres()
+    {
+        $whereString = '';
+
+        $orWheresString = '';
+
+        $andWheresString = '';
+
+        if(count($this->wheres) > 0) {
+            foreach($this->wheres as $where)
+            {
+                $built = $where->build();
+
+                if($where->isAnd()) {
+                    $andWheresString = sprintf('%s %s', $andWheresString, $built);
+                } else if($where->isOr()) {
+                    $orWheresString = sprintf('%s %s', $orWheresString, $built);
+                } else {
+                    $whereString = $built;
+                }
+            }
+        }
+
+        return sprintf('%s %s %s', $whereString, $andWheresString, $orWheresString);
+    }
 }

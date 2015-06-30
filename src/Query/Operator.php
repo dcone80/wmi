@@ -40,6 +40,20 @@ class Operator
     public static $greaterThanEqualTo = '>=';
 
     /**
+     * The does not equal operator.
+     *
+     * @var string
+     */
+    public static $doesNotEqual = '!=';
+
+    /**
+     * The does not equal alternate operator.
+     *
+     * @var string
+     */
+    public static $doesNotEqualAlt = '<>';
+
+    /**
      * The wildcard operator.
      *
      * @var string
@@ -91,7 +105,6 @@ class Operator
             self::$isA,
             self::$isNot,
             self::$like,
-            self::$wildcard,
         ];
     }
 }

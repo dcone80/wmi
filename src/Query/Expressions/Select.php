@@ -32,6 +32,18 @@ class Select extends AbstractExpression
     }
 
     /**
+     * Returns the built select expression.
+     *
+     * @return string
+     */
+    public function build()
+    {
+        $columns = implode(',', $this->columns);
+
+        return sprintf('SELECT %s', $columns);
+    }
+
+    /**
      * Adds a column to the select expression.
      *
      * @param string $column

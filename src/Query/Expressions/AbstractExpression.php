@@ -8,6 +8,13 @@ use Stevebauman\Wmi\Query\Operator;
 abstract class AbstractExpression
 {
     /**
+     * Builds the expression and returns the result.
+     *
+     * @return mixed
+     */
+    abstract public function build();
+
+    /**
      * Validates the operator in an expression.
      *
      * @param string $operator

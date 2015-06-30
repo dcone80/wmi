@@ -20,4 +20,14 @@ class From extends AbstractExpression
     {
         $this->namespace = $namespace;
     }
+
+    /**
+     * Returns the from statement.
+     *
+     * @return string
+     */
+    public function build()
+    {
+        return sprintf('FROM %s', $this->namespace);
+    }
 }
