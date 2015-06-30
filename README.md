@@ -1,5 +1,8 @@
 ## WMI - Windows Management Instrumentation in PHP
 
+[![Travis CI](https://img.shields.io/travis/stevebauman/wmi.svg?style=flat-square)](https://travis-ci.org/stevebauman/wmi)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/wmi.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/wmi/?branch=master)
+
 ### Requirements
 
 To use WMI, your server must meet the following requirements:
