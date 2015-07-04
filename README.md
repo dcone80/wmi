@@ -105,3 +105,8 @@ assume you're meaning to select all columns, so you're able to perform:
     // Query Executed
     SELECT * FROM Win32_LogicalDisk
 
+##### From
+
+##### Where
+
+##### Within
