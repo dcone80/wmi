@@ -3,6 +3,7 @@
 namespace Stevebauman\Wmi\Query;
 
 use Stevebauman\Wmi\Exceptions\Query\InvalidFromStatement;
+use Stevebauman\Wmi\Query\Expressions\Within;
 use Stevebauman\Wmi\Query\Expressions\From;
 use Stevebauman\Wmi\Query\Expressions\Where;
 use Stevebauman\Wmi\Query\Expressions\Select;
@@ -23,6 +24,13 @@ class Builder implements BuilderInterface
      * @var From
      */
     protected $from;
+
+    /**
+     * The within statement of the current query.
+     *
+     * @var Within
+     */
+    protected $within;
 
     /**
      * The where statements of the current query.
@@ -226,9 +234,11 @@ class Builder implements BuilderInterface
 
         $from = $this->buildFrom();
 
+        $within = $this->buildWithin();
+
         $wheres = $this->buildWheres();
 
-        $query = sprintf('%s %s %s', $select, $from, $wheres);
+        $query = sprintf('%s %s %s %s', $select, $from, $within, $wheres);
 
         return trim($query);
     }
@@ -288,5 +298,19 @@ class Builder implements BuilderInterface
         }
 
         return $statement;
+    }
+
+    /**
+     * Returns the built within statement.
+     *
+     * @return null|string
+     */
+    private function buildWithin()
+    {
+        if($this->within instanceof Within) {
+            return $this->within->build();
+        }
+
+        return null;
     }
 }
