@@ -85,6 +85,20 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * Adds a within expression to the current query.
+     *
+     * @param int $interval
+     *
+     * @return $this
+     */
+    public function within($interval)
+    {
+        $this->within = new Within($interval);
+
+        return $this;
+    }
+
+    /**
      * Adds a where expression to the current query.
      *
      * @param string $column
@@ -191,6 +205,16 @@ class Builder implements BuilderInterface
     public function getFrom()
     {
         return $this->from;
+    }
+
+    /**
+     * Returns the current within expression.
+     *
+     * @return Within
+     */
+    public function getWithin()
+    {
+        return $this->within;
     }
 
     /**

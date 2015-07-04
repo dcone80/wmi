@@ -98,4 +98,18 @@ class BuilderTest extends UnitTestCase
 
         $this->builder->get();
     }
+
+    public function testWithinWithInteger()
+    {
+        $this->builder->within(10);
+
+        $this->assertEquals(' WITHIN 10', $this->builder->getWithin()->build());
+    }
+
+    public function testWithinWithString()
+    {
+        $this->builder->within('100');
+
+        $this->assertEquals(' WITHIN 100', $this->builder->getWithin()->build());
+    }
 }
