@@ -107,6 +107,28 @@ assume you're meaning to select all columns, so you're able to perform:
 
 ##### From
 
+The from method accepts a string that is a WMI class name. For example:
+
+    $query->from('Win32_DiskDrive')->get();
+    
+    // Or
+    
+    $query->from('Win32_BIOS')->get();
+
+For more information on WMI classes, visit: https://msdn.microsoft.com/en-us/library/aa394132(v=vs.85).aspx
+
 ##### Where
+
+The where method accepts a field, operator and value. This is useful for retrieving data with a specific set of requirements.
+
+The method:
+
+    $query->where($field, $operator, $value);
+
+Example:
+
+    $query->where('Size', '>', 15000)->from('Win32_LogicalDisk')->get();
+
+The field parameter needs to be an attribute in the `from` class, otherwise you will not receive the correct results.
 
 ##### Within
