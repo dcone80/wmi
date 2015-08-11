@@ -42,9 +42,11 @@ Now we can connect to it, but you'll need to specify the namespace you're lookin
 
 The `connect()` method will return true or false if the connection was successful:
 
-    if($wmi->connect('root\\cimv2'))
+    if($connection = $wmi->connect('root\\cimv2'))
     {
         echo "Cool! We're connected.";
+        
+        $query = $connection->newQuery();
     } else
     {
         echo "Uh oh, looks like we couldn't connect.";
