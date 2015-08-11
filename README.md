@@ -3,6 +3,7 @@
 [![Travis CI](https://img.shields.io/travis/stevebauman/wmi.svg?style=flat-square)](https://travis-ci.org/stevebauman/wmi)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/wmi.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/wmi/?branch=master)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/eb72d3fd-7464-41f1-928b-be774eb9e697.svg?style=flat-square)](https://insight.sensiolabs.com/projects/eb72d3fd-7464-41f1-928b-be774eb9e697)
+[![Latest Stable Version](https://img.shields.io/packagist/v/stevebauman/wmi.svg?style=flat-square)](https://packagist.org/packages/stevebauman/wmi)
 
 ### Requirements
 
