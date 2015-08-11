@@ -2,7 +2,7 @@
 
 namespace Stevebauman\Wmi\Schemas;
 
-class Providers
+class Classes
 {
     const WIN32_1394CONTROLLER = 'WIN32_1394CONTROLLER';
     const WIN32_1394CONTROLLERDEVICE = 'WIN32_1394CONTROLLERDEVICE';
