@@ -130,5 +130,3 @@ Example:
     $query->where('Size', '>', 15000)->from('Win32_LogicalDisk')->get();
 
 The field parameter needs to be an attribute in the `from` class, otherwise you will not receive the correct results.
-
-##### Within
