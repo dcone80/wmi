@@ -20,4 +20,14 @@ class AbstractObject
     {
         $this->variant = $variant;
     }
+
+    /**
+     * Returns the variant object.
+     *
+     * @return object
+     */
+    public function getVariant()
+    {
+        return $this->variant;
+    }
 }

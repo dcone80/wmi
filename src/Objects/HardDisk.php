@@ -2,7 +2,7 @@
 
 namespace Stevebauman\Wmi\Objects;
 
-class HardDisk extends AbstractObject
+class HardDisk extends LogicalDevice
 {
     /**
      * Access describes whether the media is readable (value=1),
@@ -17,27 +17,6 @@ class HardDisk extends AbstractObject
     }
 
     /**
-     * The availability and status of the device. For example, the Availability property
-     * indicates that the device is running and has full power (value=3), or is in a
-     * warning (4), test (5), degraded (10) or power save state (values 13-15 and 17).
-     * Regarding the power saving states, these are defined as follows: Value 13
-     * ("Power Save - Unknown") indicates that the device is known to be in a
-     * power save mode, but its exact status in this mode is unknown; 14
-     * ("Power Save - Low Power Mode") indicates that the device is in a
-     * power save state but still functioning, and may exhibit degraded
-     * performance; 15 ("Power Save - Standby") describes that the device
-     * is not functioning but could be brought to full power 'quickly';
-     * and value 17 ("Power Save - Warning") indicates that the
-     * device is in a warning state, though also in a power save mode.
-     *
-     * @return null|int
-     */
-    public function getAvailability()
-    {
-        return $this->variant->availability();
-    }
-
-    /**
      * Size in bytes of the blocks which form this StorageExtent. If variable block
      * size, then the maximum block size in bytes should be specified. If the block
      * size is unknown or if a block concept is not valid (for example, for
@@ -48,16 +27,6 @@ class HardDisk extends AbstractObject
     public function getBlockSize()
     {
         return $this->variant->blocksize();
-    }
-
-    /**
-     * The Caption property is a short textual description (one-line string) of the object.
-     *
-     * @return null|string
-     */
-    public function getCaption()
-    {
-        return $this->variant->caption();
     }
 
     /**
@@ -99,13 +68,151 @@ class HardDisk extends AbstractObject
         return $this->variant->filesystem();
     }
 
+
     /**
-     * Returns the hard disks name.
+     * The MediaType property indicates the type of media currently present in the logical drive.
+     * This value will be one of the values of the MEDIA_TYPE enumeration defined in winioctl.h.
+     *
+     * Note: The value may not be exact for removable drives if currently there is no media in the drive.
+     *
+     * @return int
+     */
+    public function getMediaType()
+    {
+        return $this->variant->mediaType();
+    }
+
+    /**
+     * The ProviderName property indicates the network path name to the logical device.
      *
      * @return string
      */
-    public function getName()
+    public function getProviderName()
     {
-        return $this->variant->name();
+        return $this->variant->providerName();
+    }
+
+    /**
+     * The QuotasDisabled property indicates that Quota management is not enabled on this volume.
+     *
+     * @return bool
+     */
+    public function getQuotasDisabled()
+    {
+        return $this->variant->quotasDisabled();
+    }
+
+    /**
+     * The QuotasIncomplete property indicates that Quota management was
+     * used but has been disabled. Incomplete refers to the
+     * information left in the file system after quota
+     * management has been disabled.
+     *
+     * @return bool
+     */
+    public function getQuotasIncomplete()
+    {
+        return $this->variant->quotasIncomplete();
+    }
+
+    /**
+     * The QuotasRebuilding property indicates an active state signifying
+     * that the file system is in process of compiling information
+     * and setting the disk up for quota management.
+     *
+     * @return bool
+     */
+    public function getQuotasRebuilding()
+    {
+        return $this->variant->quotasRebuilding();
+    }
+
+    /**
+     * The SupportsDiskQuotas property indicates whether this volume supports disk Quotas.
+     *
+     * @return bool
+     */
+    public function getSupportsDiskQuotas()
+    {
+        return $this->variant->supportsDiskQuotas();
+    }
+
+    /**
+     * The SupportsFileBasedCompression property indicates whether the logical
+     * disk partition supports file based compression, such as is the case
+     * with NTFS. This property is FALSE, when the Compressed property is TRUE.
+     *
+     * Values: TRUE or FALSE. If TRUE, the logical disk supports file based compression.
+     *
+     * @return bool
+     */
+    public function getSupportsFileBasedCompression()
+    {
+        return $this->variant->supportsFileBasedCompression();
+    }
+
+    /**
+     * The VolumeDirty property indicates whether the disk requires chkdsk to be run at
+     * next boot up time. The property is applicable to only those instances of logical
+     * disk that represent a physical disk in the machine. It is not applicable to
+     * mapped logical drives.
+     *
+     * @return bool
+     */
+    public function getVolumeDirty()
+    {
+        return $this->variant->volumeDirty();
+    }
+
+    /**
+     * The VolumeName property indicates the volume name of the logical disk.
+     *
+     * Constraints: Maximum 32 characters
+     *
+     * @return string
+     */
+    public function getVolumeName()
+    {
+        return $this->variant->volumeName();
+    }
+
+    /**
+     * The VolumeSerialNumber property indicates the volume serial number of the logical disk.
+     *
+     * Constraints: Maximum 11 characters
+     *
+     * Example: A8C3-D032
+     *
+     * @return string
+     */
+    public function getVolumeSerialNumber()
+    {
+        return $this->variant->volumeSerialNumber();
+    }
+
+    /**
+     * Invokes the Chkdsk operation on the current volume.
+     *
+     * @param bool|false $fixErrors If true, errors found on the disk are fixed. The default is false.
+     * @param bool|true  $vigorusIndexCheck If true, a vigorous check of index entries is performed. The default is true.
+     * @param bool|true  $skipFolderCycle If true, the folder cycle checking should be skipped. The default is true.
+     * @param bool|false $forceDismount If true, the volume is dismounted before checking. The default is false.
+     * @param bool|false $recoverBadSectors If true, the bad sectors are located and the readable information is recovered. The default is false.
+     * @param bool|false $runAtBootup If true, the Chkdsk operation is performed at the next boot up. The default is false.
+     *
+     * @return bool
+     */
+    public function checkDisk($fixErrors = false, $vigorusIndexCheck = true, $skipFolderCycle = true, $forceDismount = false, $recoverBadSectors = false, $runAtBootup = false)
+    {
+        $result = $this->variant->chkdsk($fixErrors, $vigorusIndexCheck, $skipFolderCycle, $forceDismount, $recoverBadSectors, $runAtBootup);
+
+        switch($result) {
+            case 0:
+                return true;
+            case 1:
+                return true;
+        }
+
+        return false;
     }
 }

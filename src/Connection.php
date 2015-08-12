@@ -3,6 +3,7 @@
 namespace Stevebauman\Wmi;
 
 use Stevebauman\Wmi\Objects\HardDisk;
+use Stevebauman\Wmi\Objects\Processor;
 use Stevebauman\Wmi\Schemas\Classes;
 use Stevebauman\Wmi\Query\Builder;
 
@@ -33,6 +34,24 @@ class Connection implements ConnectionInterface
     public function get()
     {
         return $this->connection;
+    }
+
+    /**
+     * Returns an array of processors on the current computer.
+     *
+     * @return array
+     */
+    public function getProcessors()
+    {
+        $processors = [];
+
+        $result = $this->newQuery()->from(Classes::WIN32_PROCESSOR)->get();
+
+        foreach($result as $processor) {
+            $processor[] = new Processor($processor);
+        }
+
+        return $processors;
     }
 
     /**
