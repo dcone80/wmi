@@ -2,6 +2,8 @@
 
 namespace Stevebauman\Wmi;
 
+use Stevebauman\Wmi\Objects\HardDisk;
+use Stevebauman\Wmi\Schemas\Classes;
 use Stevebauman\Wmi\Query\Builder;
 
 class Connection implements ConnectionInterface
@@ -31,6 +33,24 @@ class Connection implements ConnectionInterface
     public function get()
     {
         return $this->connection;
+    }
+
+    /**
+     * Returns an array of hard disks on the current computer.
+     *
+     * @return array
+     */
+    public function getHardDisks()
+    {
+        $disks = [];
+
+        $result = $this->newQuery()->from(Classes::WIN32_LOGICALDISK)->get();
+
+        foreach($result as $disk) {
+            $disks[] = new HardDisk($disk);
+        }
+
+        return $disks;
     }
 
     /**
