@@ -34,4 +34,44 @@ class LogicalDevice extends ManagedSystemElement
     {
         return $this->variant->deviceId();
     }
+
+    /**
+     * LastErrorCode captures the last error code reported by the logical device.
+     *
+     * @return int
+     */
+    public function getLastErrorCode()
+    {
+        return $this->variant->lastErrorCode();
+    }
+
+    /**
+     * Returns a string indicating the devices status.
+     *
+     * @return mixed|null
+     */
+    public function getStatusInfo()
+    {
+        $int = $this->variant->statusInfo();
+
+        $possible = [
+            1 => 'Other',
+            2 => 'Unknown',
+            3 => 'Enabled',
+            4 => 'Disabled',
+            5 => 'Not Applicable',
+        ];
+
+        return $this->getFromPossibleValues($int, $possible);
+    }
+
+    /**
+     * The scoping System's Name.
+     *
+     * @return string
+     */
+    public function getSystemName()
+    {
+        return $this->variant->systemName();
+    }
 }

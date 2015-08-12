@@ -30,4 +30,22 @@ class AbstractObject
     {
         return $this->variant;
     }
+
+    /**
+     * Returns the possible value from the specified value
+     * key if it exists in the possible array.
+     *
+     * @param int|string $value
+     * @param array      $possible
+     *
+     * @return null|mixed
+     */
+    protected function getFromPossibleValues($value, $possible = [])
+    {
+        if(array_key_exists($value, $possible)) {
+            return $possible[$value];
+        }
+
+        return null;
+    }
 }

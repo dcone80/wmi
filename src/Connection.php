@@ -48,7 +48,7 @@ class Connection implements ConnectionInterface
         $result = $this->newQuery()->from(Classes::WIN32_PROCESSOR)->get();
 
         foreach($result as $processor) {
-            $processor[] = new Processor($processor);
+            $processors[] = new Processor($processor);
         }
 
         return $processors;
