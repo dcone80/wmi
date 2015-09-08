@@ -85,7 +85,7 @@ class Wmi implements WmiInterface
             // Set the connection
             $this->setConnection(new Connection($connection));
 
-            return $this->getConnection();
+            return $this->connection;
         }
 
         return false;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Stevebauman\Wmi\Objects;
+namespace Stevebauman\Wmi\Models;
 
 class HardDisk extends LogicalDevice
 {
@@ -67,7 +67,6 @@ class HardDisk extends LogicalDevice
     {
         return $this->variant->filesystem();
     }
-
 
     /**
      * The MediaType property indicates the type of media currently present in the logical drive.
@@ -194,7 +193,7 @@ class HardDisk extends LogicalDevice
      * Invokes the Chkdsk operation on the current volume.
      *
      * @param bool|false $fixErrors If true, errors found on the disk are fixed. The default is false.
-     * @param bool|true  $vigorusIndexCheck If true, a vigorous check of index entries is performed. The default is true.
+     * @param bool|true  $vigorousIndexCheck If true, a vigorous check of index entries is performed. The default is true.
      * @param bool|true  $skipFolderCycle If true, the folder cycle checking should be skipped. The default is true.
      * @param bool|false $forceDismount If true, the volume is dismounted before checking. The default is false.
      * @param bool|false $recoverBadSectors If true, the bad sectors are located and the readable information is recovered. The default is false.
@@ -202,9 +201,9 @@ class HardDisk extends LogicalDevice
      *
      * @return bool
      */
-    public function checkDisk($fixErrors = false, $vigorusIndexCheck = true, $skipFolderCycle = true, $forceDismount = false, $recoverBadSectors = false, $runAtBootup = false)
+    public function checkDisk($fixErrors = false, $vigorousIndexCheck = true, $skipFolderCycle = true, $forceDismount = false, $recoverBadSectors = false, $runAtBootup = false)
     {
-        $result = $this->variant->chkdsk($fixErrors, $vigorusIndexCheck, $skipFolderCycle, $forceDismount, $recoverBadSectors, $runAtBootup);
+        $result = $this->variant->chkdsk($fixErrors, $vigorousIndexCheck, $skipFolderCycle, $forceDismount, $recoverBadSectors, $runAtBootup);
 
         switch($result) {
             case 0:

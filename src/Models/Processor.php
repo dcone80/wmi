@@ -1,6 +1,6 @@
 <?php
 
-namespace Stevebauman\Wmi\Objects;
+namespace Stevebauman\Wmi\Models;
 
 class Processor extends LogicalDevice
 {
@@ -55,6 +55,19 @@ class Processor extends LogicalDevice
     public function getStatus()
     {
         return $this->variant->cpuStatus();
+    }
+
+    /**
+     * The LoadPercentage property specifies each processor's load
+     * capacity averaged over the last second. The term 'processor
+     * loading' refers to the total computing burden each
+     * processor carries at one time.
+     *
+     * @return int
+     */
+    public function getLoadPercentage()
+    {
+        return $this->variant->loadPercentage();
     }
 
     /**

@@ -2,9 +2,10 @@
 
 namespace Stevebauman\Wmi;
 
-use Stevebauman\Wmi\Objects\HardDisk;
-use Stevebauman\Wmi\Objects\Processor;
-use Stevebauman\Wmi\Schemas\Classes;
+use Stevebauman\Wmi\Processors\HardDisks;
+use Stevebauman\Wmi\Processors\Processors;
+use Stevebauman\Wmi\Processors\Registry;
+use Stevebauman\Wmi\Processors\Software;
 use Stevebauman\Wmi\Query\Builder;
 
 class Connection implements ConnectionInterface
@@ -37,39 +38,43 @@ class Connection implements ConnectionInterface
     }
 
     /**
-     * Returns an array of processors on the current computer.
+     * Returns a new Registry processor instance.
      *
-     * @return array
+     * @return Registry
      */
-    public function getProcessors()
+    public function registry()
     {
-        $processors = [];
-
-        $result = $this->newQuery()->from(Classes::WIN32_PROCESSOR)->get();
-
-        foreach($result as $processor) {
-            $processors[] = new Processor($processor);
-        }
-
-        return $processors;
+        return new Registry($this);
     }
 
     /**
-     * Returns an array of hard disks on the current computer.
+     * Returns a new Software processor instance.
      *
-     * @return array
+     * @return Software
      */
-    public function getHardDisks()
+    public function software()
     {
-        $disks = [];
+        return new Software($this);
+    }
 
-        $result = $this->newQuery()->from(Classes::WIN32_LOGICALDISK)->get();
+    /**
+     * Returns a new Processors processor instance.
+     *
+     * @return Processors
+     */
+    public function processors()
+    {
+        return new Processors($this);
+    }
 
-        foreach($result as $disk) {
-            $disks[] = new HardDisk($disk);
-        }
-
-        return $disks;
+    /**
+     * Returns a new HardDisks processor instance.
+     *
+     * @return HardDisks
+     */
+    public function hardDisks()
+    {
+        return new HardDisks($this);
     }
 
     /**

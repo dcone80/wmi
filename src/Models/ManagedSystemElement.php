@@ -1,8 +1,8 @@
 <?php
 
-namespace Stevebauman\Wmi\Objects;
+namespace Stevebauman\Wmi\Models;
 
-class ManagedSystemElement extends AbstractObject
+class ManagedSystemElement extends AbstractModel
 {
     /**
      * Returns the objects name.

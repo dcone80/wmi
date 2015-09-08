@@ -1,9 +1,16 @@
 <?php
 
-namespace Stevebauman\Wmi\Objects;
+namespace Stevebauman\Wmi\Models;
 
-class AbstractObject
+class AbstractModel
 {
+    /**
+     * The models attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
     /**
      * The variant object.
      *
@@ -19,6 +26,18 @@ class AbstractObject
     public function __construct($variant)
     {
         $this->variant = $variant;
+    }
+
+    /**
+     * Returns the variants specified attribute.
+     *
+     * @param $attribute
+     *
+     * @return mixed
+     */
+    public function __get($attribute)
+    {
+        return $this->variant->{$attribute};
     }
 
     /**
