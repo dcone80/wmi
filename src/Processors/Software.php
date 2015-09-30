@@ -43,10 +43,13 @@ class Software extends AbstractProcessor
         $software = [];
 
         foreach ($keys as $key) {
+            // Set a new temporary path for the software key
             $path = $this->path.$key;
 
+            // Retrieve the name of the software
             $name = $this->registry->setPath($path)->getValue('DisplayName');
 
+            // If the name exists, we'll retrieve the rest of the software information
             if ($name) {
                 $software[] = new Application([
                     'name' => $name,
