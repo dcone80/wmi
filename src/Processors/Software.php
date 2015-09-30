@@ -2,7 +2,7 @@
 
 namespace Stevebauman\Wmi\Processors;
 
-use Stevebauman\Wmi\Processors\Registry;
+use Stevebauman\Wmi\Models\Application;
 
 class Software extends AbstractProcessor
 {
@@ -48,12 +48,12 @@ class Software extends AbstractProcessor
             $name = $this->registry->setPath($path)->getValue('DisplayName');
 
             if ($name) {
-                $software[] = [
+                $software[] = new Application([
                     'name' => $name,
                     'version' => $this->registry->getValue('DisplayVersion'),
                     'publisher' => $this->registry->getValue('Publisher'),
                     'InstallDate' => $this->registry->getValue('InstallDate'),
-                ];
+                ]);
             }
         }
 

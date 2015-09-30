@@ -2,11 +2,16 @@
 
 namespace Stevebauman\Wmi\Processors;
 
-use Stevebauman\Wmi\Models\Processor;
+use Stevebauman\Wmi\Models\Variants\Processor;
 use Stevebauman\Wmi\Schemas\Classes;
 
 class Processors extends AbstractProcessor
 {
+    /**
+     * Returns all processors on the computer.
+     *
+     * @return array
+     */
     public function get()
     {
         $processors = [];

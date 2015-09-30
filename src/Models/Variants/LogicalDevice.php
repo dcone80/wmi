@@ -1,6 +1,6 @@
 <?php
 
-namespace Stevebauman\Wmi\Models;
+namespace Stevebauman\Wmi\Models\Variants;
 
 class LogicalDevice extends ManagedSystemElement
 {

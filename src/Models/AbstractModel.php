@@ -9,62 +9,60 @@ class AbstractModel
      *
      * @var array
      */
-    protected $attributes = [];
-
-    /**
-     * The variant object.
-     *
-     * @var object
-     */
-    protected $variant;
+    public $attributes = [];
 
     /**
      * Constructor.
      *
-     * @param object $variant
+     * @param array $attributes
      */
-    public function __construct($variant)
+    public function __construct(array $attributes = [])
     {
-        $this->variant = $variant;
+        $this->attributes = $attributes;
     }
 
     /**
-     * Returns the variants specified attribute.
+     * {@inheritdoc}
+     */
+    public function __set($key, $value)
+    {
+        $this->setAttribute($key, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Retrieves a value from the specified
+     * key on the models attributes array.
      *
-     * @param $attribute
+     * @param int|string $key
      *
      * @return mixed
      */
-    public function __get($attribute)
+    public function getAttribute($key)
     {
-        return $this->variant->{$attribute};
+        return $this->attributes[$key];
     }
 
     /**
-     * Returns the variant object.
+     * Sets the specified key on the attributes
+     * array to the specified value.
      *
-     * @return object
+     * @param int|string $key
+     * @param mixed      $value
+     *
+     * @return $this
      */
-    public function getVariant()
+    public function setAttribute($key, $value)
     {
-        return $this->variant;
-    }
+        $this->attributes[$key] = $value;
 
-    /**
-     * Returns the possible value from the specified value
-     * key if it exists in the possible array.
-     *
-     * @param int|string $value
-     * @param array      $possible
-     *
-     * @return null|mixed
-     */
-    protected function getFromPossibleValues($value, $possible = [])
-    {
-        if(array_key_exists($value, $possible)) {
-            return $possible[$value];
-        }
-
-        return null;
+        return $this;
     }
 }

@@ -85,7 +85,7 @@ class Registry extends AbstractProcessor
             return (string) $value;
         }
 
-        return false;
+        return null;
     }
 
     /**

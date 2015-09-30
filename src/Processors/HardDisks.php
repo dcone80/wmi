@@ -2,7 +2,7 @@
 
 namespace Stevebauman\Wmi\Processors;
 
-use Stevebauman\Wmi\Models\HardDisk;
+use Stevebauman\Wmi\Models\Variants\HardDisk;
 use Stevebauman\Wmi\Schemas\Classes;
 
 class HardDisks extends AbstractProcessor
