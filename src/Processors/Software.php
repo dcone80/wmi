@@ -55,7 +55,7 @@ class Software extends AbstractProcessor
                     'name' => $name,
                     'version' => $this->registry->getValue('DisplayVersion'),
                     'publisher' => $this->registry->getValue('Publisher'),
-                    'InstallDate' => $this->registry->getValue('InstallDate'),
+                    'install_date' => $this->registry->getValue('InstallDate'),
                 ]);
             }
         }
