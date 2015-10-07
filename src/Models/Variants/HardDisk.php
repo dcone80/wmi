@@ -190,6 +190,30 @@ class HardDisk extends LogicalDevice
     }
 
     /**
+     * The Size property indicates in bytes, the size of the logical disk.
+     *
+     * The integer returned is in bytes.
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->variant->size();
+    }
+
+    /**
+     * The FreeSpace property indicates in bytes how much free space is available on the logical disk.
+     *
+     * The integer returned is in bytes.
+     *
+     * @return int
+     */
+    public function getFreeSpace()
+    {
+        return $this->variant->freeSpace();
+    }
+
+    /**
      * Invokes the Chkdsk operation on the current volume.
      *
      * @param bool|false $fixErrors If true, errors found on the disk are fixed. The default is false.
