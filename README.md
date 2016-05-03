@@ -17,7 +17,7 @@ To use WMI, your server must meet the following requirements:
 
 Insert WMI into your `composer.json`:
 
-    "stevebauman/wmi": "1.0.*"
+    "stevebauman/wmi": "1.1.*"
     
 Now run `composer update`.
 
