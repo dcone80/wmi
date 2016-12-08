@@ -11,42 +11,42 @@ class Wmi implements WmiInterface
      *
      * @var string
      */
-    private $host;
+    protected $host;
 
     /**
      * The username of the user connecting to the host.
      *
      * @var string
      */
-    private $username;
+    protected $username;
 
     /**
      * The password of the user connecting to the host.
      *
      * @var string
      */
-    private $password;
+    protected $password;
 
     /**
      * The current COM instance.
      *
      * @var COM
      */
-    private $com;
+    protected $com;
 
     /**
      * The current COM connection to the host.
      *
      * @var Connection
      */
-    private $connection;
+    protected $connection;
 
     /**
      * The WMI COM script.
      *
      * @var string
      */
-    private $script = 'WbemScripting.SWbemLocator';
+    protected $script = 'WbemScripting.SWbemLocator';
 
     /**
      * Constructor.
