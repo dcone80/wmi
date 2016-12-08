@@ -7,6 +7,7 @@ use Stevebauman\Wmi\Processors\Processors;
 use Stevebauman\Wmi\Processors\Registry;
 use Stevebauman\Wmi\Processors\Software;
 use Stevebauman\Wmi\Query\Builder;
+use Stevebauman\Wmi\Query\Grammar;
 
 class Connection implements ConnectionInterface
 {
@@ -96,6 +97,19 @@ class Connection implements ConnectionInterface
      */
     public function newQuery()
     {
-        return new Builder($this);
+        return new Builder($this, new Grammar());
+    }
+
+    /**
+     * Handle dynamic method calls on the query builder object.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->newQuery(), $method], $parameters);
     }
 }

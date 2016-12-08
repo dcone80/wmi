@@ -2,84 +2,74 @@
 
 namespace Stevebauman\Wmi\Query;
 
-use Stevebauman\Wmi\Exceptions\Query\InvalidFromStatement;
-use Stevebauman\Wmi\Query\Expressions\Within;
-use Stevebauman\Wmi\Query\Expressions\From;
-use Stevebauman\Wmi\Query\Expressions\Where;
-use Stevebauman\Wmi\Query\Expressions\Select;
 use Stevebauman\Wmi\ConnectionInterface;
 
-class Builder implements BuilderInterface
+class Builder
 {
     /**
-     * The select statements of the current query.
-     *
-     * @var Select
-     */
-    protected $select;
-
-    /**
-     * The from statement of the current query.
-     *
-     * @var From
-     */
-    protected $from;
-
-    /**
-     * The within statement of the current query.
-     *
-     * @var Within
-     */
-    protected $within;
-
-    /**
-     * The where statements of the current query.
+     * The columns to select.
      *
      * @var array
      */
-    protected $wheres = [];
+    public $columns = ['*'];
 
     /**
-     * The and where statements of the current query.
+     * The from expression of the query.
+     *
+     * @var string
+     */
+    public $from;
+
+    /**
+     * The within expression.
+     *
+     * @var string
+     */
+    public $within;
+
+    /**
+     * The where expressions.
      *
      * @var array
      */
-    protected $andWheres = [];
-
-    /**
-     * The or where statements of the current query.
-     *
-     * @var array
-     */
-    protected $orWheres = [];
+    public $wheres = [];
 
     /**
      * The current connection.
      *
-     * @var \Stevebauman\Wmi\Connection
+     * @var ConnectionInterface
      */
-    private $connection;
+    protected $connection;
+
+    /**
+     * The WQL grammar.
+     *
+     * @var Grammar
+     */
+    protected $grammar;
 
     /**
      * Constructor.
      *
      * @param ConnectionInterface $connection
+     * @param Grammar|null        $grammar
      */
-    public function __construct(ConnectionInterface $connection)
+    public function __construct(ConnectionInterface $connection, Grammar $grammar = null)
     {
         $this->connection = $connection;
+        $this->grammar = $grammar ?: new Grammar();
     }
 
     /**
-     * Adds columns to the select query statement.
+     * Set the columns to be selected.
      *
-     * @param array|string $columns
+     * @param array|mixed $columns
      *
-     * @return $this
+     * @return Builder
      */
-    public function select($columns = null)
+    public function select($columns = ['*'])
     {
-        $this->select = new Select($columns);
+        $this->columns = is_array($columns) ? $columns : func_get_args();
 
         return $this;
     }
@@ -89,11 +79,11 @@ class Builder implements BuilderInterface
      *
      * @param int $interval
      *
-     * @return $this
+     * @return Builder
      */
     public function within($interval)
     {
-        $this->within = new Within($interval);
+        $this->within = $interval;
 
         return $this;
     }
@@ -101,53 +91,46 @@ class Builder implements BuilderInterface
     /**
      * Adds a where expression to the current query.
      *
-     * @param string $column
-     * @param string $operator
-     * @param mixed  $value
+     * @param array|string $field
+     * @param string       $operator
+     * @param mixed        $value
+     * @param string       $boolean
      *
-     * @return $this
+     * @return Builder
      */
-    public function where($column, $operator, $value = null)
+    public function where($field, $operator, $value = null, $boolean = 'and')
     {
-        if (count($this->wheres) > 0) {
-            $this->andWhere($column, $operator, $value);
+        if (is_array($field)) {
+            // If the column is an array, we will assume it is an array of
+            // key-value pairs and can add them each as a where clause.
+            foreach ($field as $key => $value) {
+                $this->where($key, Operator::$equals, $value, $boolean);
+            }
+
+            return $this;
         }
 
-        $this->wheres[] = new Where($column, $operator, $value);
+        if (!in_array($operator, Operator::get())) {
+            throw new InvalidOperatorException("Invalid operator {$operator}");
+        }
+
+        $this->wheres[] = compact('field', 'operator', 'value', 'boolean');
 
         return $this;
     }
 
     /**
-     * Adds an and where expression to the current query.
+     * Adds an orWhere expression to the current query.
      *
-     * @param string $column
-     * @param string $operator
-     * @param mixed  $value
+     * @param array|string $field
+     * @param string       $operator
+     * @param mixed        $value
      *
-     * @return $this
+     * @return Builder
      */
-    public function andWhere($column, $operator, $value = null)
+    public function orWhere($field, $operator, $value = null)
     {
-        $this->andWheres[] = new Where($column, $operator, $value, 'AND');
-
-        return $this;
-    }
-
-    /**
-     * Adds a or where statement to the current query.
-     *
-     * @param $column
-     * @param $operator
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function orWhere($column, $operator, $value = null)
-    {
-        $this->orWheres[] = new Where($column, $operator, $value, 'OR');
-
-        return $this;
+        return $this->where($field, $operator, $value, 'or');
     }
 
     /**
@@ -155,11 +138,11 @@ class Builder implements BuilderInterface
      *
      * @param string $namespace
      *
-     * @return $this
+     * @return Builder
      */
     public function from($namespace)
     {
-        $this->from = new From($namespace);
+        $this->from = $namespace;
 
         return $this;
     }
@@ -172,169 +155,22 @@ class Builder implements BuilderInterface
      */
     public function get()
     {
-        $query = $this->buildQuery();
-
-        return $this->connection->query($query);
+        return $this->connection->query($this->getQuery());
     }
 
     /**
      * Returns the current query.
      *
+     * @throws InvalidFromStatementException
+     *
      * @return string
      */
     public function getQuery()
     {
-        return $this->buildQuery();
-    }
-
-    /**
-     * Returns the current select expression.
-     *
-     * @return Select
-     */
-    public function getSelect()
-    {
-        return $this->select;
-    }
-
-    /**
-     * Returns the current from expression.
-     *
-     * @return From
-     */
-    public function getFrom()
-    {
-        return $this->from;
-    }
-
-    /**
-     * Returns the current within expression.
-     *
-     * @return Within
-     */
-    public function getWithin()
-    {
-        return $this->within;
-    }
-
-    /**
-     * Returns the where expressions on the current query.
-     *
-     * @return array
-     */
-    public function getWheres()
-    {
-        return $this->wheres;
-    }
-
-    /**
-     * Returns the or where expressions on the current query.
-     *
-     * @return array
-     */
-    public function getOrWheres()
-    {
-        return $this->orWheres;
-    }
-
-    /**
-     * Returns the curretn and where expressions on the current query.
-     *
-     * @return array
-     */
-    public function getAndWheres()
-    {
-        return $this->andWheres;
-    }
-
-    /**
-     * Builds the query and returns the query string.
-     *
-     * @return string
-     */
-    private function buildQuery()
-    {
-        $select = $this->buildSelect();
-
-        $from = $this->buildFrom();
-
-        $within = $this->buildWithin();
-
-        $wheres = $this->buildWheres();
-
-        $query = sprintf('%s %s %s %s', $select, $from, $within, $wheres);
-
-        return trim($query);
-    }
-
-    /**
-     * Builds the select statement on the current query.
-     *
-     * @return string
-     */
-    private function buildSelect()
-    {
-        if ($this->select instanceof Select) {
-            return $this->select->build();
-        } else {
-            return (new Select())->build();
-        }
-    }
-
-    /**
-     * Builds the from statement on the current query.
-     *
-     * @return string
-     *
-     * @throws InvalidFromStatement
-     */
-    private function buildFrom()
-    {
-        if ($this->from instanceof From) {
-            return $this->from->build();
+        if (empty($this->from)) {
+            throw new InvalidFromStatementException("You must provide a 'from' statement.");
         }
 
-        $message = 'No from statement exists. You need to supply one to retrieve results.';
-
-        throw new InvalidFromStatement($message);
-    }
-
-    /**
-     * Builds the wheres on the current query
-     * and returns the result query string.
-     *
-     * @return string
-     */
-    private function buildWheres()
-    {
-        $statement = '';
-
-        foreach ($this->wheres as $where) {
-            $statement = $where->build();
-        }
-
-        foreach ($this->andWheres as $andWhere) {
-            $statement .= $andWhere->build();
-        }
-
-        foreach ($this->orWheres as $orWhere) {
-            $statement .= $orWhere->build();
-        }
-
-        return $statement;
-    }
-
-    /**
-     * Returns the built within statement.
-     *
-     * @return null|string
-     */
-    private function buildWithin()
-    {
-        if($this->within instanceof Within) {
-            return $this->within->build();
-        }
-
-        return null;
+        return $this->grammar->compile($this);
     }
 }

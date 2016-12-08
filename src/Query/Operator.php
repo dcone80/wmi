@@ -2,6 +2,8 @@
 
 namespace Stevebauman\Wmi\Query;
 
+use ReflectionClass;
+
 class Operator
 {
     /**
@@ -65,28 +67,28 @@ class Operator
      *
      * @var string
      */
-    public static $like = 'LIKE';
+    public static $like = 'like';
 
     /**
      * The is operator.
      *
      * @var string
      */
-    public static $is = 'IS';
+    public static $is = 'is';
 
     /**
      * The is a operator.
      *
      * @var string
      */
-    public static $isA = 'ISA';
+    public static $isA = 'isa';
 
     /**
      * The is not operator.
      *
      * @var string
      */
-    public static $isNot = 'IS NOT';
+    public static $isNot = 'is not';
 
     /**
      * Returns all available operators.
@@ -95,18 +97,8 @@ class Operator
      */
     public static function get()
     {
-        return [
-            self::$equals,
-            self::$lessThan,
-            self::$lessThanEqualTo,
-            self::$greaterThan,
-            self::$greaterThanEqualTo,
-            self::$doesNotEqual,
-            self::$doesNotEqualAlt,
-            self::$is,
-            self::$isA,
-            self::$isNot,
-            self::$like,
-        ];
+        $reflection = new ReflectionClass(new Operator());
+
+        return array_values($reflection->getStaticProperties());
     }
 }
