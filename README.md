@@ -47,7 +47,7 @@ Now we can connect to it, but you'll need to specify the namespace you're lookin
 $connection = $wmi->connect('root\\cimv2');
 ```
 
-The `connect()` method will return a connection instance if the connection was successful:
+The `connect()` method will return a `Stevebauman\Wmi\Connection` instance if the connection was successful:
 
 ```php
 if($connection = $wmi->connect('root\\cimv2')) {
@@ -61,9 +61,10 @@ if($connection = $wmi->connect('root\\cimv2')) {
 
 ### Querying
 
-> **CAUTION**: Before we get started with queries, you should know that **NO VALUES** are escaped besides quotes inside
-> any query method. This package **is not** meant to handle user input, and you should not allow users to query computers
-on your network.
+> **CAUTION**: Before we get started with queries, you should know that **NO VALUES**
+> are escaped besides quotes inside any query method. This package **is not**
+> meant to handle user input, and you should not allow users to  query
+> computers / servers on your network.
 
 #### Raw Queries
 
