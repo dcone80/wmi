@@ -16,7 +16,7 @@ class Connection implements ConnectionInterface
      *
      * @var mixed
      */
-    private $connection;
+    protected $connection;
 
     /**
      * Constructor.
