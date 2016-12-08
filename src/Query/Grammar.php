@@ -4,20 +4,21 @@ namespace Stevebauman\Wmi\Query;
 
 class Grammar
 {
+    /**
+     * Compiles the given Builder into a SQL string.
+     *
+     * @param Builder $builder
+     *
+     * @return string
+     */
     public function compile(Builder $builder)
     {
-        $components = [
+        return $this->concatenate([
             $this->compileSelects($builder),
             $this->compileFrom($builder),
             $this->compileWithin($builder),
             $this->compileWheres($builder),
-        ];
-
-        $query = implode(' ', $components);
-
-        //dd($this->compileWheres($builder));
-
-        dd($query);
+        ]);
     }
 
     /**
@@ -29,13 +30,14 @@ class Grammar
      */
     protected function compileSelects(Builder $query)
     {
-        if (is_null($query->columns)) {
-            $query->columns = ['*'];
+        // We'll filter the select columns from containing null / empty values.
+        $columns = array_filter($query->columns);
+
+        if (empty($columns)) {
+            $columns = ['*'];
         }
 
-        $sql = trim('select ' . $this->concatenate($query->columns, ', '));
-
-        return $sql;
+        return trim('select ' . $this->concatenate($columns, ', '));
     }
 
     /**
@@ -59,7 +61,11 @@ class Grammar
      */
     protected function compileWithin(Builder $query)
     {
-        return trim("within {$query->within}");
+        if (!empty($query->within)) {
+            return trim("within {$query->within}");
+        }
+
+        return '';
     }
 
     /**

@@ -136,13 +136,15 @@ class Builder
     /**
      * Adds a from statement to the current query.
      *
-     * @param string $namespace
+     * This must be a WMI class.
+     *
+     * @param string $class
      *
      * @return Builder
      */
-    public function from($namespace)
+    public function from($class)
     {
-        $this->from = $namespace;
+        $this->from = $class;
 
         return $this;
     }
@@ -156,6 +158,16 @@ class Builder
     public function get()
     {
         return $this->connection->query($this->getQuery());
+    }
+
+    /**
+     * Returns a new Builder instance.
+     *
+     * @return Builder
+     */
+    public function newInstance()
+    {
+        return new self($this->connection, $this->grammar);
     }
 
     /**
