@@ -58,6 +58,108 @@ class BuilderTest extends TestCase
         $this->assertEquals("select * from class where field = 'value'", $query);
     }
 
+    public function test_where_with_array()
+    {
+        $wheres = [
+            'one' => 'value',
+            'two' => 'value',
+        ];
+
+        $query = $this->newBuilder()
+            ->where($wheres)
+            ->from('class')
+            ->getQuery();
+
+        $this->assertEquals("select * from class where one = 'value' and two = 'value'", $query);
+    }
+
+    public function test_where_and()
+    {
+        $query = $this->newBuilder()
+            ->where('one', '=', 'value')
+            ->where('two', '=', 'value')
+            ->from('class')
+            ->getQuery();
+
+        $this->assertEquals("select * from class where one = 'value' and two = 'value'", $query);
+    }
+
+    public function test_where_and_multiple()
+    {
+        $query = $this->newBuilder()
+            ->where('one', '=', 'value')
+            ->where('two', '=', 'value')
+            ->where('three', '=', 'value')
+            ->from('class')
+            ->getQuery();
+
+        $this->assertEquals(
+            "select * from class where one = 'value' and two = 'value' and three = 'value'",
+            $query
+        );
+    }
+
+    public function test_or_where()
+    {
+        $query = $this->newBuilder()
+            ->where('one', '=', 'value')
+            ->orWhere('two', '=', 'value')
+            ->from('class')
+            ->getQuery();
+
+        $this->assertEquals(
+            "select * from class where one = 'value' or two = 'value'",
+            $query
+        );
+    }
+
+    public function test_or_where_multiple()
+    {
+        $query = $this->newBuilder()
+            ->where('one', '=', 'value')
+            ->orWhere('two', '=', 'value')
+            ->orWhere('three', '=', 'value')
+            ->from('class')
+            ->getQuery();
+
+        $this->assertEquals(
+            "select * from class where one = 'value' or two = 'value' or three = 'value'",
+            $query
+        );
+    }
+
+    public function test_or_where_is_assumed_as_where()
+    {
+        $query = $this->newBuilder()
+            ->orWhere('field', '=', 'value')
+            ->from('class')
+            ->getQuery();
+
+        $this->assertEquals(
+            "select * from class where field = 'value'",
+            $query
+        );
+
+        $query = $this->newBuilder()
+            ->orWhere('one', '=', 'value')
+            ->orWhere('two', '=', 'value')
+            ->from('class')
+            ->getQuery();
+
+        $this->assertEquals(
+            "select * from class where one = 'value' or two = 'value'",
+            $query
+        );
+    }
+
+    /**
+     * @expectedException \Stevebauman\Wmi\Query\InvalidOperatorException
+     */
+    public function test_where_invalid_operator()
+    {
+        $this->newBuilder()->where('field', 'invalid', 'value');
+    }
+
     protected function newBuilder($connection = null, $grammar = null)
     {
         $connection = $connection ?: Mockery::mock(ConnectionInterface::class);
