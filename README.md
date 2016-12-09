@@ -70,13 +70,14 @@ if($connection = $wmi->connect('root\\cimv2')) {
 
 Once you've connected to the computer, you can execute queries on it with its connection. To execute a raw query, use:
 
-    $connection = $wmi->getConnection();
+    if($connection = $wmi->connect('root\\cimv2')) {
     
-    $results = $connection->query('SELECT * FROM Win32_LogicalDisk');
-
-    foreach($results as $disk)
-    {
-        $disk->Size;
+        $results = $connection->query('SELECT * FROM Win32_LogicalDisk');
+        
+        foreach($results as $disk) {
+            $disk->Size;
+        }
+    
     }
 
 #### Query Builder
@@ -88,8 +89,8 @@ method on the WMI connection instance like so:
     
 Once you have the query, we can start building:
 
-    $results = $query->select('*')
-        ->from('Win32_LogicalDisk')
+    // Executes the query "select * from Win32_LogicalDisk where Size >= '150000'"
+    $results = $query->from('Win32_LogicalDisk')
         ->where('Size', '>=', '150000')
         ->get();
     
@@ -101,8 +102,11 @@ The select method accepts a string or an array to insert selects onto the curren
     // Select All
     $query->select('*');
     
-    // Select Specific
+    // Select Specific (array)
     $query->select(['Name', 'Disk', 'Size']);
+    
+    // Select Specific (multiple args)
+    $query->select('Name', 'Disk', 'Size');
     
     // Select Specific (string)
     $query->select('Name, Disk, Size');
@@ -113,7 +117,7 @@ assume you're meaning to select all columns, so you're able to perform:
     $query->from('Win32_LogicalDisk')->get();
     
     // Query Executed
-    SELECT * FROM Win32_LogicalDisk
+    select * from Win32_LogicalDisk
 
 ##### From
 
@@ -121,7 +125,7 @@ The from method accepts a string that is a WMI class name. For example:
 
     $query->from('Win32_DiskDrive')->get();
     
-    // Or
+    //
     
     $query->from('Win32_BIOS')->get();
 
@@ -139,4 +143,4 @@ Example:
 
     $query->where('Size', '>', 15000)->from('Win32_LogicalDisk')->get();
 
-The field parameter needs to be an attribute in the `from` class, otherwise you will not receive the correct results.
+The field parameter needs to be an attribute in the `from` class, otherwise you will not receive any results.
