@@ -92,13 +92,13 @@ class Builder
      * Adds a where expression to the current query.
      *
      * @param array|string $field
-     * @param string       $operator
+     * @param string|null  $operator
      * @param mixed        $value
      * @param string       $boolean
      *
      * @return Builder
      */
-    public function where($field, $operator, $value = null, $boolean = 'and')
+    public function where($field, $operator = null, $value = null, $boolean = 'and')
     {
         if (is_array($field)) {
             // If the column is an array, we will assume it is an array of
@@ -123,12 +123,12 @@ class Builder
      * Adds an orWhere expression to the current query.
      *
      * @param array|string $field
-     * @param string       $operator
+     * @param string|null  $operator
      * @param mixed        $value
      *
      * @return Builder
      */
-    public function orWhere($field, $operator, $value = null)
+    public function orWhere($field, $operator = null, $value = null)
     {
         return $this->where($field, $operator, $value, 'or');
     }
