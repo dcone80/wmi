@@ -160,6 +160,16 @@ class BuilderTest extends TestCase
         $this->newBuilder()->where('field', 'invalid', 'value');
     }
 
+    public function test_within()
+    {
+        $query = $this->newBuilder()
+            ->from('class')
+            ->within('500')
+            ->getQuery();
+
+        $this->assertEquals("select * from class within 500", $query);
+    }
+
     protected function newBuilder($connection = null, $grammar = null)
     {
         $connection = $connection ?: Mockery::mock(ConnectionInterface::class);
