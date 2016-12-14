@@ -51,22 +51,22 @@ class Wmi implements WmiInterface
     /**
      * Constructor.
      *
-     * @param string $host
-     * @param string $username
-     * @param string $password
+     * @param string   $host
+     * @param string   $username
+     * @param string   $password
+     * @param COM|null $com
      */
-    public function __construct($host = 'localhost', $username = null, $password = null)
+    public function __construct($host = 'localhost', $username = null, $password = null, $com = null)
     {
-        $this->com = new COM($this->script);
-        
+        $this->com = $com ?: new COM($this->script);
+
         $this->setHost($host);
         $this->setUsername($username);
         $this->setPassword($password);
     }
 
     /**
-     * Returns a new connection to the
-     * server using the current COM instance.
+     * Returns a new connection to the server using the current COM instance.
      *
      * @param string $namespace
      * @param int    $level
