@@ -119,7 +119,7 @@ class Grammar
      *
      * @return string
      */
-    protected function concatenate($segments, $separator = ' ')
+    protected function concatenate(array $segments = [], $separator = ' ')
     {
         return implode($separator, array_filter($segments, function ($value) {
             return (string) $value !== '';
