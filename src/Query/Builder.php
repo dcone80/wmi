@@ -120,6 +120,21 @@ class Builder
     }
 
     /**
+     * Adds a whereBetween expression to the current query.
+     *
+     * @param string $field
+     * @param mixed  $from
+     * @param mixed  $to
+     *
+     * @return Builder
+     */
+    public function whereBetween($field, $from, $to)
+    {
+        return $this->where($field, '>=', $from)
+            ->where($field, '<=', $to);
+    }
+
+    /**
      * Adds an orWhere expression to the current query.
      *
      * @param array|string $field
@@ -131,6 +146,21 @@ class Builder
     public function orWhere($field, $operator = null, $value = null)
     {
         return $this->where($field, $operator, $value, 'or');
+    }
+
+    /**
+     * Adds an orWhereBetween expression to the current query.
+     *
+     * @param string $field
+     * @param mixed  $from
+     * @param mixed  $to
+     *
+     * @return Builder
+     */
+    public function orWhereBetween($field, $from, $to)
+    {
+        return $this->where($field, '>=', $from, 'or')
+            ->where($field, '<=', $to);
     }
 
     /**

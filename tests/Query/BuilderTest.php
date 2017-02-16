@@ -170,6 +170,27 @@ class BuilderTest extends TestCase
         $this->assertEquals("select * from class within 500", $query);
     }
 
+    public function test_where_between()
+    {
+        $query = $this->newBuilder()
+            ->from('class')
+            ->whereBetween('date', '2015', '2016')
+            ->getQuery();
+
+        $this->assertEquals("select * from class where date >= '2015' and date <= '2016'", $query);
+    }
+
+    public function test_or_where_between()
+    {
+        $query = $this->newBuilder()
+            ->from('class')
+            ->whereBetween('date', '2015', '2016')
+            ->orWhereBetween('other', '2016', '2017')
+            ->getQuery();
+
+        $this->assertEquals("select * from class where date >= '2015' and date <= '2016' or other >= '2016' and other <= '2017'", $query);
+    }
+
     protected function newBuilder($connection = null, $grammar = null)
     {
         $connection = $connection ?: Mockery::mock(ConnectionInterface::class);
