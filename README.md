@@ -65,6 +65,8 @@ if($connection = $wmi->connect('root\\cimv2')) {
 > are escaped besides quotes inside any query method. This package **is not**
 > meant to handle user input, and you should not allow users to  query
 > computers / servers on your network.
+>
+> This is due to WMI not supporting parameterization in queries.
 
 #### Raw Queries
 
