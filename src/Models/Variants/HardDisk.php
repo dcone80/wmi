@@ -227,15 +227,6 @@ class HardDisk extends LogicalDevice
      */
     public function checkDisk($fixErrors = false, $vigorousIndexCheck = true, $skipFolderCycle = true, $forceDismount = false, $recoverBadSectors = false, $runAtBootup = false)
     {
-        $result = $this->variant->chkdsk($fixErrors, $vigorousIndexCheck, $skipFolderCycle, $forceDismount, $recoverBadSectors, $runAtBootup);
-
-        switch($result) {
-            case 0:
-                return true;
-            case 1:
-                return true;
-        }
-
-        return false;
+        return (bool) $this->variant->chkdsk($fixErrors, $vigorousIndexCheck, $skipFolderCycle, $forceDismount, $recoverBadSectors, $runAtBootup);
     }
 }
