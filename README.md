@@ -72,15 +72,15 @@ if($connection = $wmi->connect('root\\cimv2')) {
 
 Once you've connected to the computer, you can execute queries on it with its connection. To execute a raw query, use:
 
-    if($connection = $wmi->connect('root\\cimv2')) {
-    
-        $results = $connection->query('SELECT * FROM Win32_LogicalDisk');
-        
-        foreach($results as $disk) {
-            $disk->Size;
-        }
-    
+```php
+if($connection = $wmi->connect('root\\cimv2')) {
+    $results = $connection->query('SELECT * FROM Win32_LogicalDisk');
+
+    foreach($results as $disk) {
+        $disk->Size;
     }
+}
+```
 
 #### Query Builder
 
