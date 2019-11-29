@@ -87,49 +87,57 @@ Once you've connected to the computer, you can execute queries on it with its co
 WMI Comes with a WQL query builder so you're able to easily build statements. To create a new Builder use the `newQuery()`
 method on the WMI connection instance like so:
 
-    $query = $wmi->getConnection()->newQuery();
-    
+```php
+$query = $wmi->getConnection()->newQuery();
+```
 Once you have the query, we can start building:
 
-    // Executes the query "select * from Win32_LogicalDisk where Size >= '150000'"
-    $results = $query->from('Win32_LogicalDisk')
-        ->where('Size', '>=', '150000')
-        ->get();
-    
+```php
+// Executes the query "select * from Win32_LogicalDisk where Size >= '150000'"
+$results = $query->from('Win32_LogicalDisk')
+    ->where('Size', '>=', '150000')
+    ->get();
+```
 
 ##### Select
 
 The select method accepts a string or an array to insert selects onto the current query. For example:
 
-    // Select All
-    $query->select('*');
-    
-    // Select Specific (array)
-    $query->select(['Name', 'Disk', 'Size']);
-    
-    // Select Specific (multiple args)
-    $query->select('Name', 'Disk', 'Size');
-    
-    // Select Specific (string)
-    $query->select('Name, Disk, Size');
-    
+```php
+// Select All
+$query->select('*');
+
+// Select Specific (array)
+$query->select(['Name', 'Disk', 'Size']);
+
+// Select Specific (multiple args)
+$query->select('Name', 'Disk', 'Size');
+
+// Select Specific (string)
+$query->select('Name, Disk, Size');
+```
+
 If you don't use the select method, that's fine too. The Builder will
 assume you're meaning to select all columns, so you're able to perform:
 
-    $query->from('Win32_LogicalDisk')->get();
-    
-    // Query Executed
-    select * from Win32_LogicalDisk
+```php
+$query->from('Win32_LogicalDisk')->get();
+
+// Query Executed
+select * from Win32_LogicalDisk
+```
 
 ##### From
 
 The from method accepts a string that is a WMI class name. For example:
 
-    $query->from('Win32_DiskDrive')->get();
-    
-    //
-    
-    $query->from('Win32_BIOS')->get();
+```php
+$query->from('Win32_DiskDrive')->get();
+
+//
+
+$query->from('Win32_BIOS')->get();
+```
 
 For more information on WMI classes, visit: https://msdn.microsoft.com/en-us/library/aa394132(v=vs.85).aspx
 
@@ -139,10 +147,14 @@ The where method accepts a field, operator and value. This is useful for retriev
 
 The method:
 
-    $query->where($field, $operator, $value);
+```php
+$query->where($field, $operator, $value);
+```
 
 Example:
 
-    $query->where('Size', '>', 15000)->from('Win32_LogicalDisk')->get();
+```php
+$query->where('Size', '>', 15000)->from('Win32_LogicalDisk')->get();
+```
 
 The field parameter needs to be an attribute in the `from` class, otherwise you will not receive any results.
